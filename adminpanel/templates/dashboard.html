@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<style>
+body{
+    margin:0;
+    font-family:Poppins;
+    background:linear-gradient(135deg,#4A90E2,#6AB1F7);
+    color:white;
+}
+nav{
+    padding:15px 40px;
+    background:rgba(0,0,0,0.2);
+    display:flex;
+    justify-content:space-between;
+}
+.categories{
+    width:90%;
+    margin:120px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+.card{
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(12px);
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    cursor:pointer;
+    transition:0.3s;
+}
+.card:hover{
+    transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<h2>Admin Panel ⚙️</h2>
+<a href="{% url 'logout' %}" style="color:white;">Logout</a>
+</nav>
+
+<div class="categories">
+
+<div class="card" onclick="location.href='{% url 'add_category' %}'">
+<h3>Add Category</h3>
+<p>Total: {{ total_categories }}</p>
+</div>
+
+<div class="card" onclick="location.href='{% url 'add_question' %}'">
+<h3>Add Question</h3>
+</div>
+
+<div class="card" onclick="location.href='{% url 'view_questions' %}'">
+<h3>View Questions</h3>
+<p>Total: {{ total_questions }}</p>
+</div>
+
+</div>
+
+</body>
+</html>

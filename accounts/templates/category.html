@@ -1,0 +1,251 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QuizMaster | Categories</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="{% static 'images/staricon.png' %}" type="image/x-icon"/>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4A90E2, #6AB1F7);
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+        nav {
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(8px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        .menu-icon {
+            font-size: 30px;
+            cursor: pointer;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                background: rgba(255,255,255,0.2);
+                backdrop-filter: blur(10px);
+                width: 100%;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                padding: 20px 0;
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            padding-top: 120px;
+            text-align: center;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            opacity: 0.9;
+        }
+
+        /* CATEGORY GRID */
+        .categories {
+            width: 90%;
+            margin: 50px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            transition: 0.4s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* FOOTER */
+        footer {
+            background: rgba(0,0,0,0.25);
+            backdrop-filter: blur(6px);
+            padding: 40px 20px;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            color: #FFC107;
+        }
+    </style>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector("nav ul").classList.toggle("show");
+        }
+
+        function alertLogin(){
+            alert("Please login first to start the quiz!");
+            window.location.href = "{% url 'login' %}";
+        }
+    </script>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Logo">
+        QuizMaster
+    </div>
+
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+    <ul>
+        <li><a href="{% url 'dashboard' %}">Home</a></li>
+        <li><a href="{% url 'category' %}">Categories</a></li>
+        <li><a href="{% url 'leaderboard' %}">Leaderboard</a></li>
+
+        {% if username %}
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <h1>Choose Your Category 📚</h1>
+    <p>Select a quiz topic and challenge yourself!</p>
+</div>
+
+<!-- CATEGORY GRID -->
+<div class="categories">
+    {% for cat in categories %}
+        {% if username %}
+            <!-- LOGGED IN -->
+            <a href="{% url 'quiz' cat.id %}" style="text-decoration:none;">
+                <div class="card">
+                    <h3>{{ cat.name }}</h3>
+                    <p>{{ cat.description }}</p>
+                </div>
+            </a>
+        {% else %}
+            <!-- NOT LOGGED IN -->
+            <div class="card" onclick="alertLogin()">
+                <h3>{{ cat.name }}</h3>
+                <p>{{ cat.description }}</p>
+                
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-around; gap:30px; width:90%; margin:auto;">
+        <div style="max-width:300px;">
+            <h3>QuizMaster</h3>
+            <p>Interactive quiz platform for learning & fun.</p>
+        </div>
+
+        <div>
+            <h3>Quick Links</h3>
+            <p><a href="{% url 'dashboard' %}" class="footer-link">Home</a></p>
+            <p><a href="{% url 'category' %}" class="footer-link">Categories</a></p>
+            <p><a href="{% url 'leaderboard' %}" class="footer-link">Leaderboard</a></p>
+        </div>
+
+        <div>
+            <h3>Contact</h3>
+            <p>Email: quizmaster@gmail.com</p>
+            <p>Phone: +91 98765 43210</p>
+        </div>
+    </div>
+
+    <hr style="margin:30px auto; width:90%; border:0.5px solid rgba(255,255,255,0.3);">
+    <p style="text-align:center;">© 2026 QuizMaster | College Project</p>
+</footer>
+
+</body>
+</html>

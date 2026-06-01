@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Question</title>
+<style>
+body{
+background:linear-gradient(135deg,#4A90E2,#6AB1F7);
+font-family:Poppins;
+color:white;
+}
+.form-box{
+width:50%;
+margin:80px auto;
+background:rgba(255,255,255,0.2);
+padding:30px;
+border-radius:20px;
+backdrop-filter:blur(12px);
+}
+input,select,textarea,button{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:none;
+border-radius:10px;
+}
+button{
+background:#FFD700;
+font-weight:bold;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-box">
+<h2>Add Question</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<select name="category" required>
+<option value="">Select Category</option>
+{% for cat in categories %}
+<option value="{{ cat.id }}">{{ cat.name }}</option>
+{% endfor %}
+</select>
+
+<textarea name="question" placeholder="Enter Question" required></textarea>
+
+<input type="text" name="option1" placeholder="Option 1" required>
+<input type="text" name="option2" placeholder="Option 2" required>
+<input type="text" name="option3" placeholder="Option 3" required>
+<input type="text" name="option4" placeholder="Option 4" required>
+
+<input type="text" name="correct_answer" placeholder="Correct Answer" required>
+
+<button type="submit">Add Question</button>
+
+</form>
+</div>
+
+</body>
+</html>

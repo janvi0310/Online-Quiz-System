@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Portal - Login</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e8efff, #cfd9ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 380px;
+            background: white;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 10px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #3a4bff;
+        }
+        input {
+            width: 90%;
+            padding: 11px;
+            margin: 8px 0;
+            border: 1px solid #b4c3ff;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 11px;
+            background: #3a4bff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #2e3bcc;
+        }
+        a {
+            text-decoration: none;
+            color: #3a4bff;
+            font-weight: bold;
+        }
+        .captcha-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .captcha-text {
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 2px;
+            background: #eef2ff;
+            padding: 6px 12px;
+            border-radius: 5px;
+            user-select: none;
+        }
+        .refresh-btn {
+            background: #ddd;
+            color: black;
+            width:auto;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-right:14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Login</h2>
+
+    <form method="POST" id="loginForm">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Enter Username" required>
+    <input type="password" name="password" placeholder="Enter Password" required>
+
+    <!-- CAPTCHA -->
+    <div class="captcha-box">
+        <span class="captcha-text">{{ request.session.captcha }}</span>
+        <a href="{% url 'login' %}">
+            <button type="button" class="refresh-btn">↻</button>
+        </a>
+    </div>
+
+    <input type="text" name="captcha" placeholder="Enter CAPTCHA" required>
+
+    <button type="submit">Login</button>
+</form>
+
+<!-- ===== ADD FORGOT PASSWORD LINK HERE ===== -->
+<p style="text-align:center; margin-top:8px;">
+    <a href="{% url 'forgot_password' %}">Forgot Password?</a>
+</p>
+
+<p style="text-align:center; margin-top:12px;">
+    Don't have an account?
+    <a href="{% url 'register' %}">Register</a>
+</p>
+
+</div>
+
+<!-- ✅ ALERT BOX ONLY (NO DIV MESSAGE) -->
+{% if error %}
+<script>
+    alert("{{ error }}");
+</script>
+{% endif %}
+
+</body>
+</html>

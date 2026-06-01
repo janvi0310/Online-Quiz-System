@@ -1,0 +1,332 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster | Home</title>
+    <link rel="icon" href="/static/images/staricon.png" type="image/x-icon"/>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4A90E2, #6AB1F7);
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+        nav {
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            backdrop-filter: blur(8px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.7;
+        }
+
+        /* MOBILE MENU */
+        .menu-icon {
+            font-size: 30px;
+            cursor: pointer;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                background: rgba(255,255,255,0.2);
+                backdrop-filter: blur(10px);
+                width: 100%;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                padding: 20px 0;
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+        }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            color: white;
+            padding: 150px 20px 80px;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .hero .btn {
+            margin-top: 30px;
+            display: inline-block;
+            background: white;
+            color: #4A90E2;
+            padding: 14px 34px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .hero .btn:hover {
+            background: #f0f0f0;
+            transform: scale(1.06);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CATEGORY CARDS */
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+
+        .categories {
+            margin: 40px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
+            width: 90%;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.18);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.4s ease;
+            animation: slideUp 0.6s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* HIGHLIGHTS */
+        .highlights {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 50px auto 20px;
+            flex-wrap: wrap;
+        }
+
+        .highlight-box {
+            width: 260px;
+            padding: 30px;
+            text-align: center;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .highlight-box h3 {
+            font-size: 40px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 30px;
+            opacity: 0.9;
+        }
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #FFC107;
+        }
+
+    </style>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector("nav ul").classList.toggle("show");
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">
+           <img src="{% static 'images/logo.jpg' %}" alt="Logo"> QuizMaster
+
+        </div>
+
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+
+        <ul>
+            <li><a href="{% url 'dashboard' %}" >Home</a></li>
+            <li><a href="{% url 'category' %}">Categories</a></li>
+            <li><a href="{% url 'leaderboard' %}">Leaderboard</a></li>
+            {% if username %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+     <h1>
+    {% if username %}
+        Welcome <span style="color:#FFD700;">{{ username }}</span> 
+    {% else %}
+        Welcome to QuizMaster!
+    {% endif %}
+</h1>
+
+
+        <h2>Level Up Your Knowledge!</h1>
+        <p>Choose any quiz category and start learning in a fun interactive way.</p>
+            {% if username %}
+            <a href="{% url 'category' %}" class="btn">Start Quiz</a>
+        {% else %}
+            <a href="javascript:void(0)" class="btn" onclick="loginAlert()">Start Quiz</a>
+        {% endif %}
+
+    </section>
+
+    <!-- CATEGORIES -->
+   
+
+   <!-- FOOTER -->
+<footer style="margin-top:60px; background: rgba(0,0,0,0.15); padding:40px 20px; color:white;">
+    
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-around; gap:30px; width:90%; margin:auto;">
+        
+        <!-- About -->
+        <div style="max-width:300px;">
+            <h3 style="margin-bottom:15px;">QuizMaster</h3>
+            <p style="opacity:0.9;">
+                QuizMaster is an interactive quiz platform designed for students 
+                to test knowledge, improve skills, and enjoy learning.
+            </p>
+        </div>
+        
+
+        <!-- Quick Links -->
+<div>
+    <h3 style="margin-bottom:15px;">Quick Links</h3>
+
+    <p><a href="{% url 'dashboard' %}" class="footer-link">Home</a></p>
+    <p><a href="{% url 'category' %}" class="footer-link">Categories</a></p>
+    <p><a href="{% url 'leaderboard' %}" class="footer-link">Leaderboard</a></p>
+</div>
+
+
+        <!-- Contact -->
+        <div>
+            <h3 style="margin-bottom:15px;">Contact</h3>
+            <p>Email: quizmaster@gmail.com</p>
+            <p>Phone: +91 98765 43210</p>
+        </div>
+
+    </div>
+
+    <!-- Bottom Line -->
+    <hr style="margin:30px auto; width:90%; border:0.5px solid rgba(255,255,255,0.3);">
+
+    <p style="text-align:center; opacity:0.9;">
+        © 2026 QuizMaster | Designed for College Project Submission
+    </p>
+
+</footer>
+
+<script>
+function loginAlert() {
+    alert("Please login first to start the quiz.");
+}
+</script>
+
+
+</body>
+</html>
